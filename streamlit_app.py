@@ -93,20 +93,11 @@ st.markdown(
         opacity: 0.5;
     }
 
-    /* Style for the digital camera image preview */
-    .camera-container {
-        text-align: center;
-        margin-bottom: 20px;
-        width: 100%;
-    }
-
-    .camera-preview {
-        width: 100%;
-        max-width: 240px;
-        height: auto;
-        border-radius: 15px;
-        border: 2px solid #FF69B4;
-        box-shadow: 0px 4px 10px rgba(255, 105, 180, 0.2);
+    /* st.image çerçevesini güzelleştirmek için özel küçük dokunuş */
+    [data-testid="stImage"] img {
+        border-radius: 15px !important;
+        border: 2px solid #FF69B4 !important;
+        box-shadow: 0px 4px 10px rgba(255, 105, 180, 0.2) !important;
     }
     </style>
     """,
@@ -247,13 +238,12 @@ with col2:
 # --- COLUMN 3: CAMERA IMAGE & INTRO TEXT PANEL ---
 with col3:
     with st.container(border=True):
-        # Image is displayed at the top right panel safely via HTML
+        # Streamlit'in yerel st.image fonksiyonu kullanılarak görsel hatasız bir şekilde yüklenir.
+        # Genişliği sağ panele tam uydurmak için use_container_width=True bıraktım.
+        st.image("camera.jpg", use_container_width=True)
+        
         st.markdown(
             """
-            <div class="camera-container">
-                <img src="camera.jpg" class="camera-preview" alt="Digital Camera">
-            </div>
-            
             <div style="text-align: left; margin-top: 15px;">
                 <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
                 <p>You can type in your message below and we will encode it for you.</p>

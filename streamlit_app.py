@@ -188,7 +188,6 @@ col1, col2, col3 = st.columns([1.2, 2.2, 1.2], gap="large")
 
 # --- COLUMN 1: ADJUSTMENTS PANEL ---
 with col1:
-    # Simpler & more practical: border=True uses native elements that can be styled cleanly
     with st.container(border=True):
         st.markdown('<div class="panel-title">ADJUSTMENTS</div>', unsafe_allow_html=True)
         
@@ -208,13 +207,12 @@ with col2:
     
     with page_left:
         input_text = st.text_area(
-            label="📖 Input Page:",
+            label="",
             placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...",
             height=430
         )
         
     with page_right:
-        st.markdown("<p style='margin-bottom: 8px; font-weight: bold;'>📝 Output Page:</p>", unsafe_allow_html=True)
         if input_text:
             if mode == "Encode":
                 result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
@@ -227,7 +225,6 @@ with col2:
 
 # --- COLUMN 3: INTRO TEXT PANEL ---
 with col3:
-    # Kept left-aligned, no title heading, auto-framed inside a simple practical container
     with st.container(border=True):
         st.markdown(
             """

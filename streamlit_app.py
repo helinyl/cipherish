@@ -2,11 +2,13 @@ import streamlit as st
 
 st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="wide")
 
+# --- SIMPLIFIED PRACTICAL STYLING ---
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght=0,400;0,700;1,400;1,700&family=Cinzel:wght=400;500;600&family=Playfair+Display:ital,wght=0,400;0,600;1,400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght=0,400;0,700;1,400;1,700&family=Cinzel:wght@400;500;600&display=swap');
 
+    /* Global Uniform Font Sizing & Base Theme */
     html, body, [class*="css"], label, button, input, textarea, p, span, div {
         font-family: 'Anonymous Pro', monospace !important;
         font-size: 1rem !important;
@@ -17,20 +19,15 @@ st.markdown(
         color: #C71585 !important;
     }
 
-    div[data-testid="stVerticalBlockBorderWrapper"] {
+    /* Target native Streamlit borders to style them pink with a soft background fill */
+    [data-testid="stContainerBorder"] {
         background-color: #FFE4E1 !important;
         border: 6px solid #FF69B4 !important;
         border-radius: 30px !important;
         padding: 25px !important;
-        color: #C71585 !important;
     }
 
-    div[data-testid="stColumn"]:nth-of-type(2) div[data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: transparent !important;
-        border: none !important;
-        padding: 0px !important;
-    }
-
+    /* Premium Heading Styles */
     .panel-title {
         font-family: 'Cinzel', serif !important;
         font-weight: 500 !important;
@@ -57,6 +54,7 @@ st.markdown(
         text-transform: uppercase;
     }
 
+    /* Typewriter Paper Text Area Inputs */
     textarea {
         font-family: 'Anonymous Pro', monospace !important;
         background-color: #FFF9FA !important;
@@ -66,7 +64,7 @@ st.markdown(
         border-radius: 10px;
     }
 
-    /* Custom dynamic output container that auto-expands naturally downwards */
+    /* Typewriter Paper Auto-Expanding Outputs */
     .dynamic-output-box {
         font-family: 'Anonymous Pro', monospace !important;
         background-color: #FFF9FA !important;
@@ -80,11 +78,10 @@ st.markdown(
         word-break: break-all;
     }
 
+    /* Enforce deep pink label coloring across all core sliders and text fields */
     [data-testid="stWidgetLabel"] p, label p, p, span {
         color: #C71585 !important;
         font-weight: 700 !important;
-        font-family: 'Anonymous Pro', monospace !important;
-        font-size: 1rem !important;
     }
 
     hr {
@@ -96,6 +93,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# --- APP HEADER ---
 st.markdown(
     """
     <div class="app-title-container">
@@ -105,6 +103,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# --- ALGORITHMS ---
 alphabet = "abcçdefgğhıijklmnoöprsştuüvxyz"
 
 def cipher_encoder(text, shift, block, use_reversal, use_numbers):
@@ -184,10 +183,13 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
     return new_text
 
 
+# --- 3-COLUMN STRUCTURE ---
 col1, col2, col3 = st.columns([1.2, 2.2, 1.2], gap="large")
 
+# --- COLUMN 1: ADJUSTMENTS PANEL ---
 with col1:
-    with st.container():
+    # Simpler & more practical: border=True uses native elements that can be styled cleanly
+    with st.container(border=True):
         st.markdown('<div class="panel-title">ADJUSTMENTS</div>', unsafe_allow_html=True)
         
         mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
@@ -200,6 +202,7 @@ with col1:
         enable_reversal = st.checkbox("Word Reversal", value=False)
         enable_numbers = st.checkbox("Number Layers", value=False)
 
+# --- COLUMN 2: THE OPEN BOOK (INPUT / OUTPUT) ---
 with col2:
     page_left, page_right = st.columns(2, gap="medium")
     
@@ -218,17 +221,17 @@ with col2:
             else:
                 result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
             
-            # Dynamic styled text frame that expands beautifully downwards
             st.markdown(f'<div class="dynamic-output-box">{result}</div>', unsafe_allow_html=True)
         else:
             st.markdown('<div class="dynamic-output-box" style="color: rgba(199, 21, 133, 0.5);">The output will be here...</div>', unsafe_allow_html=True)
 
+# --- COLUMN 3: INTRO TEXT PANEL ---
 with col3:
-    with st.container():
-        # Text is left-aligned, title is removed, sentence length is kept exactly as is
+    # Kept left-aligned, no title heading, auto-framed inside a simple practical container
+    with st.container(border=True):
         st.markdown(
             """
-            <div style="text-align: left; margin-top: 15px;">
+            <div style="text-align: left; margin-top: 5px;">
                 <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
                 <p>You can type in your message below and we will encode it for you.</p>
                 <p>Your secret is safe with us &lt;3</p>

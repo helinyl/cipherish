@@ -93,50 +93,22 @@ st.markdown(
         opacity: 0.5;
     }
 
-    /* Heart shape avatar styling container */
-    .avatar-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        margin-top: 25px;
-        justify-items: center;
-    }
-
-    .heart-avatar-container {
-        position: relative;
-        width: 80px;
-        height: 80px;
-        background-color: #FF69B4;
-        clip-path: url(#heart-path);
-    }
-
-    .heart-avatar-container img {
+    /* Style for the digital camera image preview */
+    .camera-container {
+        text-align: center;
+        margin-bottom: 20px;
         width: 100%;
-        height: 100%;
-        object-fit: cover;
     }
 
-    /* Placeholder design until jpegs arrive */
-    .heart-placeholder {
+    .camera-preview {
         width: 100%;
-        height: 100%;
-        background-color: #FFB6C1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #FFF;
-        font-weight: bold;
-        font-size: 0.8rem;
+        max-width: 240px;
+        height: auto;
+        border-radius: 15px;
+        border: 2px solid #FF69B4;
+        box-shadow: 0px 4px 10px rgba(255, 105, 180, 0.2);
     }
     </style>
-
-    <svg width="0" height="0">
-      <defs>
-        <clipPath id="heart-path" clipPathUnits="objectBoundingBox">
-          <path d="M 0.5, 0.24 C 0.45, 0.06, 0.25, 0, 0.1, 0.15 C -0.05, 0.3, 0, 0.6, 0.5, 0.95 C 1, 0.6, 1.05, 0.3, 0.9, 0.15 C 0.75, 0, 0.55, 0.06, 0.5, 0.24 Z" />
-        </clipPath>
-      </defs>
-    </svg>
     """,
     unsafe_allow_html=True
 )
@@ -254,7 +226,6 @@ with col2:
     page_left, page_right = st.columns(2, gap="medium")
     
     with page_left:
-        # label set to empty string to keep page top completely clean and aligned
         input_text = st.text_area(
             label="",
             placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...",
@@ -262,7 +233,6 @@ with col2:
         )
         
     with page_right:
-        # Added a tiny spacer to push the output wrapper exactly to the same top level as text_area
         st.markdown('<div style="margin-top: 13px;"></div>', unsafe_allow_html=True)
         if input_text:
             if mode == "Encode":
@@ -274,30 +244,20 @@ with col2:
         else:
             st.markdown('<div class="dynamic-output-box" style="color: rgba(199, 21, 133, 0.5);">The output will be here...</div>', unsafe_allow_html=True)
 
-# --- COLUMN 3: INTRO TEXT & HEART AVATARS PANEL ---
+# --- COLUMN 3: CAMERA IMAGE & INTRO TEXT PANEL ---
 with col3:
     with st.container(border=True):
+        # Image is displayed at the top right panel safely via HTML
         st.markdown(
             """
-            <div style="text-align: left; margin-top: 5px;">
+            <div class="camera-container">
+                <img src="camera.jpg" class="camera-preview" alt="Digital Camera">
+            </div>
+            
+            <div style="text-align: left; margin-top: 15px;">
                 <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
                 <p>You can type in your message below and we will encode it for you.</p>
                 <p>Your secret is safe with us &lt;3</p>
-            </div>
-            
-            <div class="avatar-grid">
-                <div class="heart-avatar-container">
-                    <div class="heart-placeholder">✨</div>
-                </div>
-                <div class="heart-avatar-container">
-                    <div class="heart-placeholder">✨</div>
-                </div>
-                <div class="heart-avatar-container">
-                    <div class="heart-placeholder">✨</div>
-                </div>
-                <div class="heart-avatar-container">
-                    <div class="heart-placeholder">✨</div>
-                </div>
             </div>
             """, 
             unsafe_allow_html=True

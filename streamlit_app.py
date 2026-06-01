@@ -5,7 +5,7 @@ st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="wide")
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght=0,400;0,700;1,400;1,700&family=Cinzel:wght@400;500;600&family=Playfair+Display:ital,wght=0,400;0,600;1,400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght=0,400;0,700;1,400;1,700&family=Cinzel:wght=400;500;600&family=Playfair+Display:ital,wght=0,400;0,600;1,400&display=swap');
 
     html, body, [class*="css"], label, button, input, textarea, p, span, div {
         font-family: 'Anonymous Pro', monospace !important;
@@ -66,13 +66,18 @@ st.markdown(
         border-radius: 10px;
     }
 
-    code, .stCodeBlock, pre {
+    /* Custom dynamic output container that auto-expands naturally downwards */
+    .dynamic-output-box {
         font-family: 'Anonymous Pro', monospace !important;
         background-color: #FFF9FA !important;
         border: 2px solid #FF69B4 !important;
         color: #C71585 !important;
         font-size: 1rem !important;
         border-radius: 10px;
+        padding: 10px 14px;
+        min-height: 430px;
+        white-space: pre-wrap;
+        word-break: break-all;
     }
 
     [data-testid="stWidgetLabel"] p, label p, p, span {
@@ -212,19 +217,21 @@ with col2:
                 result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
             else:
                 result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
-            st.code(result, language="text")
+            
+            # Dynamic styled text frame that expands beautifully downwards
+            st.markdown(f'<div class="dynamic-output-box">{result}</div>', unsafe_allow_html=True)
         else:
-            st.info("The output will be here...")
+            st.markdown('<div class="dynamic-output-box" style="color: rgba(199, 21, 133, 0.5);">The output will be here...</div>', unsafe_allow_html=True)
 
 with col3:
     with st.container():
-        st.markdown('<div class="panel-title">WHO ARE WE?</div>', unsafe_allow_html=True)
-        
+        # Text is left-aligned, title is removed, sentence length is kept exactly as is
         st.markdown(
             """
-            <div style="text-align: center; margin-top: 10px;">
+            <div style="text-align: left; margin-top: 15px;">
                 <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
                 <p>You can type in your message below and we will encode it for you.</p>
+                <p>Your secret is safe with us &lt;3</p>
             </div>
             """, 
             unsafe_allow_html=True

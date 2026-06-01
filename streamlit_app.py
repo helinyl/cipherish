@@ -6,7 +6,7 @@ st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="wide")
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght=0,400;0,700;1,400;1,700&family=Cinzel:wght@400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght=0,400;0,700;1,400;1,700&family=Cinzel:wght=400;500;600&display=swap');
 
     /* Global Uniform Font Sizing & Base Theme */
     html, body, [class*="css"], label, button, input, textarea, p, span, div {
@@ -238,9 +238,8 @@ with col2:
 # --- COLUMN 3: CAMERA IMAGE & INTRO TEXT PANEL ---
 with col3:
     with st.container(border=True):
-        # Streamlit'in yerel st.image fonksiyonu kullanılarak görsel hatasız bir şekilde yüklenir.
-        # Genişliği sağ panele tam uydurmak için use_container_width=True bıraktım.
-        st.image("camera.jpg", use_container_width=True)
+        # Dosya adı tam olarak zphoto.png şeklinde güncellendi
+        st.image("zphoto.png", use_container_width=True)
         
         st.markdown(
             """

@@ -19,14 +19,20 @@ st.markdown(
         color: #C71585 !important; /* Deep pink text */
     }
 
-    /* Column Cards (Left and Right Pink Panels matching the PDF shape) */
-    .panel-container {
+    /* Target Streamlit's native containers to lock elements inside the borders */
+    div[data-testid="stVerticalBlockBorderWrapper"] {
         background-color: #FFE4E1 !important; /* Muted pink fill */
         border: 6px solid #FF69B4 !important; /* Thick pink rounded borders */
-        border-radius: 30px;
-        padding: 30px 20px;
-        min-height: 520px;
+        border-radius: 30px !important;
+        padding: 25px !important;
         color: #C71585 !important;
+    }
+
+    /* Keep the center notebook page containers clean without the thick pink panel borders */
+    div[data-testid="stColumn"]:nth-of-type(2) div[data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: transparent !important;
+        border: none !important;
+        padding: 0px !important;
     }
 
     .panel-title {
@@ -35,7 +41,7 @@ st.markdown(
         font-size: 1.4rem;
         text-align: center;
         color: #FF69B4 !important;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         letter-spacing: 1.5px;
     }
 
@@ -75,15 +81,10 @@ st.markdown(
         border-radius: 10px;
     }
 
-    /* Make sure all widget internal texts (sliders, checkboxes, radios) match the theme color */
+    /* Style default widget text colors to match themes */
     [data-testid="stWidgetLabel"] p, label p, p, span {
         color: #C71585 !important;
         font-weight: 500 !important;
-    }
-    
-    /* Custom spacing adjustments inside the custom containers */
-    .stRadio > div, .stSlider, .stCheckbox {
-        margin-bottom: 15px;
     }
 
     hr {
@@ -186,24 +187,23 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
 
 
 # --- 3-COLUMN LAYOUT STRUCTURE ---
-col1, col2, col3 = st.columns([1.1, 2.2, 1.1], gap="large")
+col1, col2, col3 = st.columns([1.2, 2.2, 1.2], gap="large")
 
 # --- COLUMN 1: ADJUSTMENTS PANEL ---
 with col1:
-    # Everything is enclosed inside a single div wrapper to keep it inside the pink panel frame
-    st.markdown('<div class="panel-container">', unsafe_allow_html=True)
-    st.markdown('<div class="panel-title">AD JUSTMENTS</div>', unsafe_allow_html=True) 
-    
-    mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True) 
-    st.markdown("<hr>", unsafe_allow_html=True)
-    
-    shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5, step=1) 
-    block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4, step=1) 
-    st.markdown("<hr>", unsafe_allow_html=True)
-    
-    enable_reversal = st.checkbox("Word Reversal", value=False) 
-    enable_numbers = st.checkbox("Number Layers", value=False) 
-    st.markdown('</div>', unsafe_allow_html=True)
+    # st.container creates a clean block that our CSS targets perfectly to inject the border design
+    with st.container():
+        st.markdown('<div class="panel-title">AD JUSTMENTS</div>', unsafe_allow_html=True) 
+        
+        mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True) 
+        st.markdown("<hr>", unsafe_allow_html=True)
+        
+        shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5, step=1) 
+        block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4, step=1) 
+        st.markdown("<hr>", unsafe_allow_html=True)
+        
+        enable_reversal = st.checkbox("Word Reversal", value=False) 
+        enable_numbers = st.checkbox("Number Layers", value=False) 
 
 # --- COLUMN 2: THE OPEN BOOK (INPUT / OUTPUT) ---
 with col2:
@@ -229,18 +229,16 @@ with col2:
 
 # --- COLUMN 3: WHO ARE WE PANEL ---
 with col3:
-    # Everything is enclosed inside a single div wrapper to keep it inside the pink panel frame
-    st.markdown('<div class="panel-container">', unsafe_allow_html=True)
-    st.markdown('<div class="panel-title">WHO ARE WE?</div>', unsafe_allow_html=True) 
-    
-    st.markdown(
-        """
-        <div style="font-size: 1.05rem; line-height: 1.7; text-align: center; margin-top: 10px;">
-            <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
-            <p>You can type in your message below and we will encode it for you.</p>
-            <p>Your secret is safe with us &lt;3</p>
-        </div>
-        """, 
-        unsafe_allow_html=True
-    )
-    st.markdown('</div>', unsafe_allow_html=True)
+    with st.container():
+        st.markdown('<div class="panel-title">WHO ARE WE?</div>', unsafe_allow_html=True) 
+        
+        st.markdown(
+            """
+            <div style="font-size: 1.05rem; line-height: 1.7; text-align: center; margin-top: 10px;">
+                <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
+                <p>You can type in your message below and we will encode it for you.</p>
+                <p>Your secret is safe with us &lt;3</p>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )

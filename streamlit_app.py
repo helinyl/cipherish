@@ -54,7 +54,7 @@ st.markdown(
         text-transform: uppercase;
     }
 
-    /* Typewriter Paper Text Area Inputs - Perfectly aligned with output */
+    /* Typewriter Paper Text Area Inputs - Reset margin for perfect alignment */
     textarea {
         font-family: 'Anonymous Pro', monospace !important;
         background-color: #FFF9FA !important;
@@ -62,10 +62,15 @@ st.markdown(
         color: #C71585 !important;
         font-size: 1rem !important;
         border-radius: 10px;
+    }
+    
+    /* Removes default label spacing from text area to ensure it aligns with output */
+    div[data-testid="stTextArea"] {
         margin-top: 0px !important;
+        padding-top: 0px !important;
     }
 
-    /* Typewriter Paper Auto-Expanding Outputs - Perfectly aligned with input */
+    /* Typewriter Paper Auto-Expanding Outputs - Aligned precisely with input height and top margin */
     .dynamic-output-box {
         font-family: 'Anonymous Pro', monospace !important;
         background-color: #FFF9FA !important;
@@ -73,13 +78,14 @@ st.markdown(
         color: #C71585 !important;
         font-size: 1rem !important;
         border-radius: 10px;
-        padding: 10px 14px;
+        padding: 12px 14px;
         min-height: 430px;
         max-height: 430px;
         overflow-y: auto;
         white-space: pre-wrap;
         word-break: break-all;
-        margin-top: 0px !important;
+        margin-top: 4px; /* Push output down slightly to match input box top exactly */
+        box-sizing: border-box;
     }
 
     /* Enforce deep pink label coloring across all core sliders and text fields */
@@ -224,7 +230,7 @@ with col2:
         )
         
     with page_right:
-        st.markdown('<div style="margin-top: 13px;"></div>', unsafe_allow_html=True)
+        # İki kutunun da üst sınırı milimetrik olarak eşitlendi
         if input_text:
             if mode == "Encode":
                 result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
@@ -238,7 +244,6 @@ with col2:
 # --- COLUMN 3: CAMERA IMAGE & INTRO TEXT PANEL ---
 with col3:
     with st.container(border=True):
-        # Dosya adı tam olarak zphoto.png şeklinde güncellendi
         st.image("zphoto.png", use_container_width=True)
         
         st.markdown(

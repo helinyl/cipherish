@@ -54,37 +54,44 @@ st.markdown(
         text-transform: uppercase;
     }
 
-    /* Typewriter Paper Text Area Inputs - Reset margin for perfect alignment */
-    textarea {
-        font-family: 'Anonymous Pro', monospace !important;
+    /* Streamlit'in kendi iç kutularının (border=True) stilini özelleştirme */
+    .input-output-container [data-testid="stContainerBorder"] {
         background-color: #FFF9FA !important;
         border: 2px solid #FF69B4 !important;
+        border-radius: 10px !important;
+        padding: 0px !important; /* İç boşluğu sıfırlayarak text_area ile tam eşitleyelim */
+        min-height: 430px !important;
+        max-height: 430px !important;
+    }
+
+    /* Typewriter Paper Text Area Inputs - Kenarlığı kaldırdık çünkü artık üstteki konteyner sağlıyor */
+    textarea {
+        font-family: 'Anonymous Pro', monospace !important;
+        background-color: transparent !important;
+        border: none !important;
         color: #C71585 !important;
         font-size: 1rem !important;
-        border-radius: 10px;
+        height: 430px !important;
+        resize: none;
     }
-    
-    /* Removes default label spacing from text area to ensure it aligns with output */
+
+    /* Streamlit'in textarea etrafına koyduğu varsayılan kenarlığı da temizleyelim */
     div[data-testid="stTextArea"] {
+        border: none !important;
         margin-top: 0px !important;
         padding-top: 0px !important;
     }
 
-    /* Typewriter Paper Auto-Expanding Outputs - Aligned precisely with input height and top margin */
+    /* Çıktı metninin doğrudan basılacağı stil (Konteynerin içine tam oturur) */
     .dynamic-output-box {
         font-family: 'Anonymous Pro', monospace !important;
-        background-color: #FFF9FA !important;
-        border: 2px solid #FF69B4 !important;
         color: #C71585 !important;
         font-size: 1rem !important;
-        border-radius: 10px;
         padding: 12px 14px;
-        min-height: 430px;
-        max-height: 430px;
+        height: 430px;
         overflow-y: auto;
         white-space: pre-wrap;
         word-break: break-all;
-        margin-top: 4px; /* Push output down slightly to match input box top exactly */
         box-sizing: border-box;
     }
 
@@ -222,24 +229,32 @@ with col1:
 with col2:
     page_left, page_right = st.columns(2, gap="medium")
     
+    # input-output-container div'i içine alarak CSS'in sadece bu iki kutuyu hedeflemesini sağladık
+    st.markdown('<div class="input-output-container">', unsafe_allow_html=True)
+    
     with page_left:
-        input_text = st.text_area(
-            label="",
-            placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...",
-            height=430
-        )
+        # Hizalamayı Streamlit'in kendi border'lı kutusu üstleniyor
+        with st.container(border=True):
+            input_text = st.text_area(
+                label="",
+                placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...",
+                label_visibility="collapsed" # Etiketi tamamen kapatarak boşluk oluşmasını engelledik
+            )
         
     with page_right:
-        # İki kutunun da üst sınırı milimetrik olarak eşitlendi
-        if input_text:
-            if mode == "Encode":
-                result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
+        # Sağ taraf da tamamen aynı yerel Streamlit kutusuyla sarmalandı. Böylece üst çizgiler kusursuz eşitlendi!
+        with st.container(border=True):
+            if input_text:
+                if mode == "Encode":
+                    result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
+                else:
+                    result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
+                
+                st.markdown(f'<div class="dynamic-output-box">{result}</div>', unsafe_allow_html=True)
             else:
-                result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
-            
-            st.markdown(f'<div class="dynamic-output-box">{result}</div>', unsafe_allow_html=True)
-        else:
-            st.markdown('<div class="dynamic-output-box" style="color: rgba(199, 21, 133, 0.5);">The output will be here...</div>', unsafe_allow_html=True)
+                st.markdown('<div class="dynamic-output-box" style="color: rgba(199, 21, 133, 0.5);">The output will be here...</div>', unsafe_allow_html=True)
+                
+    st.markdown('</div>', unsafe_allow_html=True)
 
 # --- COLUMN 3: CAMERA IMAGE & INTRO TEXT PANEL ---
 with col3:

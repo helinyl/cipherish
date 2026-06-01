@@ -1,4 +1,5 @@
 import streamlit as st
+import html  # HTML karakter güvenliği için bu kütüphaneyi ekledik
 
 st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="wide")
 
@@ -59,12 +60,12 @@ st.markdown(
         background-color: #FFF9FA !important;
         border: 2px solid #FF69B4 !important;
         border-radius: 10px !important;
-        padding: 0px !important; /* İç boşluğu sıfırlayarak text_area ile tam eşitleyelim */
+        padding: 0px !important;
         min-height: 430px !important;
         max-height: 430px !important;
     }
 
-    /* Typewriter Paper Text Area Inputs - Kenarlığı kaldırdık çünkü artık üstteki konteyner sağlıyor */
+    /* Typewriter Paper Text Area Inputs */
     textarea {
         font-family: 'Anonymous Pro', monospace !important;
         background-color: transparent !important;
@@ -75,14 +76,13 @@ st.markdown(
         resize: none;
     }
 
-    /* Streamlit'in textarea etrafına koyduğu varsayılan kenarlığı da temizleyelim */
     div[data-testid="stTextArea"] {
         border: none !important;
         margin-top: 0px !important;
         padding-top: 0px !important;
     }
 
-    /* Çıktı metninin doğrudan basılacağı stil (Konteynerin içine tam oturur) */
+    /* Çıktı metninin doğrudan basılacağı stil */
     .dynamic-output-box {
         font-family: 'Anonymous Pro', monospace !important;
         color: #C71585 !important;
@@ -128,7 +128,7 @@ st.markdown(
 )
 
 # --- ALGORITHMS ---
-alphabet = "abcçdefgğhıijklmnoöprsştuüvxyz"
+alphabet = "abcçdefgğhıijklmnoöpqrsştuüvwxyz"
 
 def cipher_encoder(text, shift, block, use_reversal, use_numbers):
     if not text:
@@ -229,20 +229,17 @@ with col1:
 with col2:
     page_left, page_right = st.columns(2, gap="medium")
     
-    # input-output-container div'i içine alarak CSS'in sadece bu iki kutuyu hedeflemesini sağladık
     st.markdown('<div class="input-output-container">', unsafe_allow_html=True)
     
     with page_left:
-        # Hizalamayı Streamlit'in kendi border'lı kutusu üstleniyor
         with st.container(border=True):
             input_text = st.text_area(
                 label="",
                 placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...",
-                label_visibility="collapsed" # Etiketi tamamen kapatarak boşluk oluşmasını engelledik
+                label_visibility="collapsed"
             )
         
     with page_right:
-        # Sağ taraf da tamamen aynı yerel Streamlit kutusuyla sarmalandı. Böylece üst çizgiler kusursuz eşitlendi!
         with st.container(border=True):
             if input_text:
                 if mode == "Encode":
@@ -250,7 +247,9 @@ with col2:
                 else:
                     result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
                 
-                st.markdown(f'<div class="dynamic-output-box">{result}</div>', unsafe_allow_html=True)
+                # html.escape() fonksiyonu ile metni güvenli hale getirdik, artık < karakteri kutuyu bozmuyor!
+                safe_result = html.escape(result)
+                st.markdown(f'<div class="dynamic-output-box">{safe_result}</div>', unsafe_allow_html=True)
             else:
                 st.markdown('<div class="dynamic-output-box" style="color: rgba(199, 21, 133, 0.5);">The output will be here...</div>', unsafe_allow_html=True)
                 

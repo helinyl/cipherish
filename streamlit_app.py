@@ -1,9 +1,9 @@
 import streamlit as st
 
 # Force wide layout to fit the 3-column mock-up beautifully
-st.set_page_config(page_title="Cipherish App", page_icon="⚿", layout="wide")
+st.set_page_config(page_title="Cipherish App", page_icon="🔐", layout="wide")
 
-# --- CUSTOM CSS FOR THE PINK BOOK/NOTEBOOK THEME ---
+# --- CUSTOM CSS FOR THE PINK NOTEBOOK THEME ---
 st.markdown(
     """
     <style>
@@ -19,13 +19,13 @@ st.markdown(
         color: #C71585 !important; /* Deep pink text */
     }
 
-    /* Column Cards (Left and Right Pink Panels) */
+    /* Column Cards (Left and Right Pink Panels matching the PDF shape) */
     .panel-container {
         background-color: #FFE4E1 !important; /* Muted pink fill */
-        border: 4px solid #FF69B4 !important; /* Bright pink rounded borders */
-        border-radius: 25px;
-        padding: 25px;
-        min-height: 550px;
+        border: 6px solid #FF69B4 !important; /* Thick pink rounded borders */
+        border-radius: 30px;
+        padding: 30px 20px;
+        min-height: 520px;
         color: #C71585 !important;
     }
 
@@ -34,19 +34,16 @@ st.markdown(
         font-weight: 600 !important;
         font-size: 1.4rem;
         text-align: center;
-        background-color: #FF69B4;
-        color: white !important;
-        padding: 5px 10px;
-        border-radius: 12px;
-        margin-bottom: 20px;
-        letter-spacing: 1px;
+        color: #FF69B4 !important;
+        margin-bottom: 30px;
+        letter-spacing: 1.5px;
     }
 
     /* Main Center Header - CIPHERISH */
     .app-title-container {
         text-align: center;
         margin-top: -10px;
-        margin-bottom: 30px;
+        margin-bottom: 35px;
         width: 100%;
     }
 
@@ -63,28 +60,35 @@ st.markdown(
     textarea {
         font-family: 'Courier Prime', monospace !important;
         background-color: #FFF9FA !important;
-        border: 1px dashed #FF69B4 !important;
+        border: 2px solid #FF69B4 !important;
         color: #C71585 !important;
         font-size: 1.05rem !important;
+        border-radius: 10px;
     }
 
     /* Code output block styled like typewriter paper */
     code, .stCodeBlock {
         font-family: 'Courier Prime', monospace !important;
         background-color: #FFF9FA !important;
-        border: 1px dashed #FF69B4 !important;
+        border: 2px solid #FF69B4 !important;
         color: #C71585 !important;
-        border-radius: 5px;
+        border-radius: 10px;
     }
 
-    /* Adjusting default Streamlit widget text colors to match themes */
-    label, p, span, [data-testid="stWidgetLabel"] p {
+    /* Make sure all widget internal texts (sliders, checkboxes, radios) match the theme color */
+    [data-testid="stWidgetLabel"] p, label p, p, span {
         color: #C71585 !important;
         font-weight: 500 !important;
     }
     
+    /* Custom spacing adjustments inside the custom containers */
+    .stRadio > div, .stSlider, .stCheckbox {
+        margin-bottom: 15px;
+    }
+
     hr {
         border-color: #FF69B4 !important;
+        opacity: 0.5;
     }
     </style>
     """,
@@ -186,34 +190,34 @@ col1, col2, col3 = st.columns([1.1, 2.2, 1.1], gap="large")
 
 # --- COLUMN 1: ADJUSTMENTS PANEL ---
 with col1:
+    # Everything is enclosed inside a single div wrapper to keep it inside the pink panel frame
     st.markdown('<div class="panel-container">', unsafe_allow_html=True)
-    st.markdown('<div class="panel-title">ADJUSTMENTS</div>', unsafe_allow_html=True)
+    st.markdown('<div class="panel-title">AD JUSTMENTS</div>', unsafe_allow_html=True) 
     
-    mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
-    st.markdown("---")
+    mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True) 
+    st.markdown("<hr>", unsafe_allow_html=True)
     
-    shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5, step=1)
-    block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4, step=1)
-    st.markdown("---")
+    shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5, step=1) 
+    block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4, step=1) 
+    st.markdown("<hr>", unsafe_allow_html=True)
     
-    enable_reversal = st.checkbox("Word Reversal", value=False)
-    enable_numbers = st.checkbox("Number Layers", value=False)
+    enable_reversal = st.checkbox("Word Reversal", value=False) 
+    enable_numbers = st.checkbox("Number Layers", value=False) 
     st.markdown('</div>', unsafe_allow_html=True)
 
 # --- COLUMN 2: THE OPEN BOOK (INPUT / OUTPUT) ---
 with col2:
-    # We create a 2-column split inside the center block to look like pages of an open notebook
     page_left, page_right = st.columns(2, gap="medium")
     
     with page_left:
         input_text = st.text_area(
             label="📖 Input Page:",
-            placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...",
+            placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...", 
             height=430
         )
         
     with page_right:
-        st.markdown("<p style='margin-bottom: 8px;'>📝 Output Page:</p>", unsafe_allow_html=True)
+        st.markdown("<p style='margin-bottom: 8px; font-weight: 500;'>📝 Output Page:</p>", unsafe_allow_html=True)
         if input_text:
             if mode == "Encode":
                 result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
@@ -221,18 +225,19 @@ with col2:
                 result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
             st.code(result, language="text")
         else:
-            # Displays a beautiful placeholder match if no text is inputted yet
-            st.info("The output will be here...")
+            st.info("The output will be here...") 
 
 # --- COLUMN 3: WHO ARE WE PANEL ---
 with col3:
+    # Everything is enclosed inside a single div wrapper to keep it inside the pink panel frame
     st.markdown('<div class="panel-container">', unsafe_allow_html=True)
-    st.markdown('<div class="panel-title">WHO ARE WE?</div>', unsafe_allow_html=True)
+    st.markdown('<div class="panel-title">WHO ARE WE?</div>', unsafe_allow_html=True) 
     
     st.markdown(
         """
-        <div style="font-size: 0.95rem; line-height: 1.6; text-align: center;">
+        <div style="font-size: 1.05rem; line-height: 1.7; text-align: center; margin-top: 10px;">
             <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
+            <p>You can type in your message below and we will encode it for you.</p>
             <p>Your secret is safe with us &lt;3</p>
         </div>
         """, 

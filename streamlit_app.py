@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Force wide layout to fit the 3-column mock-up beautifully
-st.set_page_config(page_title="Cipherish App", page_icon="🔐", layout="wide")
+st.set_page_config(page_title="Cipherish App", page_icon="⚿", layout="wide")
 
 # --- CUSTOM CSS FOR THE PINK NOTEBOOK THEME ---
 st.markdown(

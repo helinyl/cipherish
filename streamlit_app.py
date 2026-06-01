@@ -264,7 +264,7 @@ with col3:
             """
             <div style="text-align: left; margin-top: 15px;">
                 <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
-                <p>You can type in your message below and we will encode it for you.</p>
+                <p>You can type in your message and Cipherish will encode it for you.</p>
                 <p>Your secret is safe with us &lt;3</p>
             </div>
             """, 

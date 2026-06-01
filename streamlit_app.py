@@ -1,17 +1,18 @@
 import streamlit as st
 
 # Force wide layout to fit the 3-column mock-up beautifully
-st.set_page_config(page_title="Cipherish App", page_icon="⚿", layout="wide")
+st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="wide")
 
-# --- CUSTOM CSS FOR THE PINK NOTEBOOK THEME ---
+# --- CUSTOM CSS FOR THE NEW FONTS AND PINK NOTEBOOK THEME ---
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght=0,400;0,700;1,400&family=Poppins:wght=300;400;500;600&family=Courier+Prime&display=swap');
+    /* Importing 'The Seasons' alternatives (Cinzel / Playfair) and Anonymous Pro */
+    @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght=0,400;0,700;1,400;1,700&family=Cinzel:wght@400;500;600&family=Playfair+Display:ital,wght=0,400;0,600;1,400&display=swap');
 
-    /* Global styling and background color */
-    html, body, [class*="css"], label, button, input, textarea {
-        font-family: 'Poppins', sans-serif !important;
+    /* Global styling - Set everything to Anonymous Pro by default */
+    html, body, [class*="css"], label, button, input, textarea, p, span, div {
+        font-family: 'Anonymous Pro', monospace !important;
     }
 
     .stApp {
@@ -21,8 +22,8 @@ st.markdown(
 
     /* Target Streamlit's native containers to lock elements inside the borders */
     div[data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #FFE4E1 !important; /* Muted pink fill */
-        border: 6px solid #FF69B4 !important; /* Thick pink rounded borders */
+        background-color: #FFE4E1 !important; /* Muted pink fill [cite: 1, 16] */
+        border: 6px solid #FF69B4 !important; /* Thick pink rounded borders [cite: 1, 16] */
         border-radius: 30px !important;
         padding: 25px !important;
         color: #C71585 !important;
@@ -35,17 +36,18 @@ st.markdown(
         padding: 0px !important;
     }
 
+    /* Headings Panel Titles - Matching "The Seasons" Font Style */
     .panel-title {
-        font-family: 'Poppins', sans-serif !important;
-        font-weight: 600 !important;
-        font-size: 1.4rem;
+        font-family: 'Cinzel', serif !important; /* Elegant elegant serif matching Cipherish */
+        font-weight: 500 !important;
+        font-size: 1.6rem;
         text-align: center;
         color: #FF69B4 !important;
         margin-bottom: 20px;
-        letter-spacing: 1.5px;
+        letter-spacing: 3px;
     }
 
-    /* Main Center Header - CIPHERISH */
+    /* Main Center Header - CIPHERISH - Matching "The Seasons" Font Style */
     .app-title-container {
         text-align: center;
         margin-top: -10px;
@@ -54,37 +56,39 @@ st.markdown(
     }
 
     .app-title {
-        font-family: 'Libre Baskerville', serif !important;
-        font-size: 4rem;
+        font-family: 'Cinzel', serif !important; /* Elegant elegant serif matching headers */
+        font-size: 4.2rem;
         font-weight: 400;
-        letter-spacing: 12px;
+        letter-spacing: 14px;
         color: #C71585 !important;
         text-transform: uppercase;
     }
 
-    /* Text areas styled like typewriter paper inside the book */
+    /* Text areas styled like typewriter paper inside the book with Anonymous Pro */
     textarea {
-        font-family: 'Courier Prime', monospace !important;
+        font-family: 'Anonymous Pro', monospace !important;
         background-color: #FFF9FA !important;
         border: 2px solid #FF69B4 !important;
         color: #C71585 !important;
-        font-size: 1.05rem !important;
+        font-size: 1.1rem !important;
         border-radius: 10px;
     }
 
-    /* Code output block styled like typewriter paper */
-    code, .stCodeBlock {
-        font-family: 'Courier Prime', monospace !important;
+    /* Code output block styled like typewriter paper with Anonymous Pro */
+    code, .stCodeBlock, pre {
+        font-family: 'Anonymous Pro', monospace !important;
         background-color: #FFF9FA !important;
         border: 2px solid #FF69B4 !important;
         color: #C71585 !important;
+        font-size: 1.1rem !important;
         border-radius: 10px;
     }
 
     /* Style default widget text colors to match themes */
     [data-testid="stWidgetLabel"] p, label p, p, span {
         color: #C71585 !important;
-        font-weight: 500 !important;
+        font-weight: 700 !important; /* Slightly heavier weight for clear monospace reading */
+        font-family: 'Anonymous Pro', monospace !important;
     }
 
     hr {
@@ -191,19 +195,18 @@ col1, col2, col3 = st.columns([1.2, 2.2, 1.2], gap="large")
 
 # --- COLUMN 1: ADJUSTMENTS PANEL ---
 with col1:
-    # st.container creates a clean block that our CSS targets perfectly to inject the border design
     with st.container():
-        st.markdown('<div class="panel-title">AD JUSTMENTS</div>', unsafe_allow_html=True) 
+        st.markdown('<div class="panel-title">ADJUSTMENTS</div>', unsafe_allow_html=True) [cite: 1]
         
-        mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True) 
+        mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True) [cite: 3]
         st.markdown("<hr>", unsafe_allow_html=True)
         
-        shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5, step=1) 
-        block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4, step=1) 
+        shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5, step=1) [cite: 8]
+        block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4, step=1) [cite: 11]
         st.markdown("<hr>", unsafe_allow_html=True)
         
-        enable_reversal = st.checkbox("Word Reversal", value=False) 
-        enable_numbers = st.checkbox("Number Layers", value=False) 
+        enable_reversal = st.checkbox("Word Reversal", value=False) [cite: 12]
+        enable_numbers = st.checkbox("Number Layers", value=False) [cite: 13]
 
 # --- COLUMN 2: THE OPEN BOOK (INPUT / OUTPUT) ---
 with col2:
@@ -212,12 +215,12 @@ with col2:
     with page_left:
         input_text = st.text_area(
             label="📖 Input Page:",
-            placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...", 
+            placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...", [cite: 9, 10, 14, 15]
             height=430
         )
         
     with page_right:
-        st.markdown("<p style='margin-bottom: 8px; font-weight: 500;'>📝 Output Page:</p>", unsafe_allow_html=True)
+        st.markdown("<p style='margin-bottom: 8px; font-weight: bold;'>📝 Output Page:</p>", unsafe_allow_html=True)
         if input_text:
             if mode == "Encode":
                 result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
@@ -225,19 +228,18 @@ with col2:
                 result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
             st.code(result, language="text")
         else:
-            st.info("The output will be here...") 
+            st.info("The output will be here...") [cite: 7]
 
 # --- COLUMN 3: WHO ARE WE PANEL ---
 with col3:
     with st.container():
-        st.markdown('<div class="panel-title">WHO ARE WE?</div>', unsafe_allow_html=True) 
+        st.markdown('<div class="panel-title">WHO ARE WE?</div>', unsafe_allow_html=True) [cite: 16]
         
         st.markdown(
             """
-            <div style="font-size: 1.05rem; line-height: 1.7; text-align: center; margin-top: 10px;">
+            <div style="font-size: 1.1rem; line-height: 1.7; text-align: center; margin-top: 10px; font-family: 'Anonymous Pro', monospace;">
                 <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
                 <p>You can type in your message below and we will encode it for you.</p>
-                <p>Your secret is safe with us &lt;3</p>
             </div>
             """, 
             unsafe_allow_html=True

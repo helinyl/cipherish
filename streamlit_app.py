@@ -22,8 +22,8 @@ st.markdown(
 
     /* Target Streamlit's native containers to lock elements inside the borders */
     div[data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #FFE4E1 !important; /* Muted pink fill [cite: 1, 16] */
-        border: 6px solid #FF69B4 !important; /* Thick pink rounded borders [cite: 1, 16] */
+        background-color: #FFE4E1 !important; /* Muted pink fill */
+        border: 6px solid #FF69B4 !important; /* Thick pink rounded borders */
         border-radius: 30px !important;
         padding: 25px !important;
         color: #C71585 !important;
@@ -196,17 +196,17 @@ col1, col2, col3 = st.columns([1.2, 2.2, 1.2], gap="large")
 # --- COLUMN 1: ADJUSTMENTS PANEL ---
 with col1:
     with st.container():
-        st.markdown('<div class="panel-title">ADJUSTMENTS</div>', unsafe_allow_html=True) [cite: 1]
+        st.markdown('<div class="panel-title">ADJUSTMENTS</div>', unsafe_allow_html=True)
         
-        mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True) [cite: 3]
+        mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
         st.markdown("<hr>", unsafe_allow_html=True)
         
-        shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5, step=1) [cite: 8]
-        block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4, step=1) [cite: 11]
+        shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5, step=1)
+        block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4, step=1)
         st.markdown("<hr>", unsafe_allow_html=True)
         
-        enable_reversal = st.checkbox("Word Reversal", value=False) [cite: 12]
-        enable_numbers = st.checkbox("Number Layers", value=False) [cite: 13]
+        enable_reversal = st.checkbox("Word Reversal", value=False)
+        enable_numbers = st.checkbox("Number Layers", value=False)
 
 # --- COLUMN 2: THE OPEN BOOK (INPUT / OUTPUT) ---
 with col2:
@@ -215,7 +215,7 @@ with col2:
     with page_left:
         input_text = st.text_area(
             label="📖 Input Page:",
-            placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...", [cite: 9, 10, 14, 15]
+            placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...",
             height=430
         )
         
@@ -228,18 +228,19 @@ with col2:
                 result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
             st.code(result, language="text")
         else:
-            st.info("The output will be here...") [cite: 7]
+            st.info("The output will be here...")
 
 # --- COLUMN 3: WHO ARE WE PANEL ---
 with col3:
     with st.container():
-        st.markdown('<div class="panel-title">WHO ARE WE?</div>', unsafe_allow_html=True) [cite: 16]
+        st.markdown('<div class="panel-title">WHO ARE WE?</div>', unsafe_allow_html=True)
         
         st.markdown(
             """
             <div style="font-size: 1.1rem; line-height: 1.7; text-align: center; margin-top: 10px; font-family: 'Anonymous Pro', monospace;">
                 <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
                 <p>You can type in your message below and we will encode it for you.</p>
+                <p>Your secret is safe with us &lt;3</p>
             </div>
             """, 
             unsafe_allow_html=True

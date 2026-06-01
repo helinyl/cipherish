@@ -1,53 +1,46 @@
 import streamlit as st
 
-# Force wide layout to fit the 3-column mock-up beautifully
 st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="wide")
 
-# --- CUSTOM CSS FOR THE NEW FONTS AND PINK NOTEBOOK THEME ---
 st.markdown(
     """
     <style>
-    /* Importing 'The Seasons' alternatives (Cinzel / Playfair) and Anonymous Pro */
     @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght=0,400;0,700;1,400;1,700&family=Cinzel:wght@400;500;600&family=Playfair+Display:ital,wght=0,400;0,600;1,400&display=swap');
 
-    /* Global styling - Set everything to Anonymous Pro by default */
     html, body, [class*="css"], label, button, input, textarea, p, span, div {
         font-family: 'Anonymous Pro', monospace !important;
+        font-size: 1rem !important;
     }
 
     .stApp {
-        background-color: #FFF0F5 !important; /* Soft blush/lavender pink background */
-        color: #C71585 !important; /* Deep pink text */
+        background-color: #FFF0F5 !important;
+        color: #C71585 !important;
     }
 
-    /* Target Streamlit's native containers to lock elements inside the borders */
     div[data-testid="stVerticalBlockBorderWrapper"] {
-        background-color: #FFE4E1 !important; /* Muted pink fill */
-        border: 6px solid #FF69B4 !important; /* Thick pink rounded borders */
+        background-color: #FFE4E1 !important;
+        border: 6px solid #FF69B4 !important;
         border-radius: 30px !important;
         padding: 25px !important;
         color: #C71585 !important;
     }
 
-    /* Keep the center notebook page containers clean without the thick pink panel borders */
     div[data-testid="stColumn"]:nth-of-type(2) div[data-testid="stVerticalBlockBorderWrapper"] {
         background-color: transparent !important;
         border: none !important;
         padding: 0px !important;
     }
 
-    /* Headings Panel Titles - Matching "The Seasons" Font Style */
     .panel-title {
-        font-family: 'Cinzel', serif !important; /* Elegant elegant serif matching Cipherish */
+        font-family: 'Cinzel', serif !important;
         font-weight: 500 !important;
-        font-size: 1.6rem;
+        font-size: 1.5rem !important;
         text-align: center;
         color: #FF69B4 !important;
         margin-bottom: 20px;
         letter-spacing: 3px;
     }
 
-    /* Main Center Header - CIPHERISH - Matching "The Seasons" Font Style */
     .app-title-container {
         text-align: center;
         margin-top: -10px;
@@ -56,39 +49,37 @@ st.markdown(
     }
 
     .app-title {
-        font-family: 'Cinzel', serif !important; /* Elegant elegant serif matching headers */
-        font-size: 4.2rem;
+        font-family: 'Cinzel', serif !important;
+        font-size: 4rem !important;
         font-weight: 400;
         letter-spacing: 14px;
         color: #C71585 !important;
         text-transform: uppercase;
     }
 
-    /* Text areas styled like typewriter paper inside the book with Anonymous Pro */
     textarea {
         font-family: 'Anonymous Pro', monospace !important;
         background-color: #FFF9FA !important;
         border: 2px solid #FF69B4 !important;
         color: #C71585 !important;
-        font-size: 1.1rem !important;
+        font-size: 1rem !important;
         border-radius: 10px;
     }
 
-    /* Code output block styled like typewriter paper with Anonymous Pro */
     code, .stCodeBlock, pre {
         font-family: 'Anonymous Pro', monospace !important;
         background-color: #FFF9FA !important;
         border: 2px solid #FF69B4 !important;
         color: #C71585 !important;
-        font-size: 1.1rem !important;
+        font-size: 1rem !important;
         border-radius: 10px;
     }
 
-    /* Style default widget text colors to match themes */
     [data-testid="stWidgetLabel"] p, label p, p, span {
         color: #C71585 !important;
-        font-weight: 700 !important; /* Slightly heavier weight for clear monospace reading */
+        font-weight: 700 !important;
         font-family: 'Anonymous Pro', monospace !important;
+        font-size: 1rem !important;
     }
 
     hr {
@@ -100,7 +91,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- APP HEADER ---
 st.markdown(
     """
     <div class="app-title-container">
@@ -110,7 +100,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- ALGORITHMS (UNCHANGED) ---
 alphabet = "abcçdefgğhıijklmnoöprsştuüvxyz"
 
 def cipher_encoder(text, shift, block, use_reversal, use_numbers):
@@ -190,10 +179,8 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
     return new_text
 
 
-# --- 3-COLUMN LAYOUT STRUCTURE ---
 col1, col2, col3 = st.columns([1.2, 2.2, 1.2], gap="large")
 
-# --- COLUMN 1: ADJUSTMENTS PANEL ---
 with col1:
     with st.container():
         st.markdown('<div class="panel-title">ADJUSTMENTS</div>', unsafe_allow_html=True)
@@ -208,7 +195,6 @@ with col1:
         enable_reversal = st.checkbox("Word Reversal", value=False)
         enable_numbers = st.checkbox("Number Layers", value=False)
 
-# --- COLUMN 2: THE OPEN BOOK (INPUT / OUTPUT) ---
 with col2:
     page_left, page_right = st.columns(2, gap="medium")
     
@@ -230,17 +216,15 @@ with col2:
         else:
             st.info("The output will be here...")
 
-# --- COLUMN 3: WHO ARE WE PANEL ---
 with col3:
     with st.container():
         st.markdown('<div class="panel-title">WHO ARE WE?</div>', unsafe_allow_html=True)
         
         st.markdown(
             """
-            <div style="font-size: 1.1rem; line-height: 1.7; text-align: center; margin-top: 10px; font-family: 'Anonymous Pro', monospace;">
+            <div style="text-align: center; margin-top: 10px;">
                 <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
                 <p>You can type in your message below and we will encode it for you.</p>
-                <p>Your secret is safe with us &lt;3</p>
             </div>
             """, 
             unsafe_allow_html=True

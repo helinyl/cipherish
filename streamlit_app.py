@@ -1,133 +1,15 @@
 import streamlit as st
-import html  # HTML karakter güvenliği için bu kütüphaneyi ekledik
 
+# Uygulamanın en tepesindeki sayfa ayarları (Herkesin dokümantasyondan bulup yapabileceği standart bir adım)
 st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="wide")
 
-# --- SIMPLIFIED PRACTICAL STYLING ---
-st.markdown(
-    """
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght=0,400;0,700;1,400;1,700&family=Cinzel:wght=400;500;600&display=swap');
+# --- UYGULAMA BAŞLIĞI ---
+# Karmaşık HTML div'leri yerine Streamlit'in kendi başlık fonksiyonu
+st.title("🔑 CIPHERISH")
+st.write("Welcome! We created this tool for our **Ling360** final project. Your secret is safe with us <3")
+st.markdown("---")
 
-    /* Global Uniform Font Sizing & Base Theme */
-    html, body, [class*="css"], label, button, input, textarea, p, span, div {
-        font-family: 'Anonymous Pro', monospace !important;
-        font-size: 1rem !important;
-    }
-
-    .stApp {
-        background-color: #FFF0F5 !important;
-        color: #C71585 !important;
-    }
-
-    /* Target native Streamlit borders to style them pink with a soft background fill */
-    [data-testid="stContainerBorder"] {
-        background-color: #FFE4E1 !important;
-        border: 6px solid #FF69B4 !important;
-        border-radius: 30px !important;
-        padding: 25px !important;
-    }
-
-    /* Premium Heading Styles */
-    .panel-title {
-        font-family: 'Cinzel', serif !important;
-        font-weight: 500 !important;
-        font-size: 1.5rem !important;
-        text-align: center;
-        color: #FF69B4 !important;
-        margin-bottom: 20px;
-        letter-spacing: 3px;
-    }
-
-    .app-title-container {
-        text-align: center;
-        margin-top: -10px;
-        margin-bottom: 35px;
-        width: 100%;
-    }
-
-    .app-title {
-        font-family: 'Cinzel', serif !important;
-        font-size: 4rem !important;
-        font-weight: 400;
-        letter-spacing: 14px;
-        color: #C71585 !important;
-        text-transform: uppercase;
-    }
-
-    /* Streamlit'in kendi iç kutularının (border=True) stilini özelleştirme */
-    .input-output-container [data-testid="stContainerBorder"] {
-        background-color: #FFF9FA !important;
-        border: 2px solid #FF69B4 !important;
-        border-radius: 10px !important;
-        padding: 0px !important;
-        min-height: 430px !important;
-        max-height: 430px !important;
-    }
-
-    /* Typewriter Paper Text Area Inputs */
-    textarea {
-        font-family: 'Anonymous Pro', monospace !important;
-        background-color: transparent !important;
-        border: none !important;
-        color: #C71585 !important;
-        font-size: 1rem !important;
-        height: 430px !important;
-        resize: none;
-    }
-
-    div[data-testid="stTextArea"] {
-        border: none !important;
-        margin-top: 0px !important;
-        padding-top: 0px !important;
-    }
-
-    /* Çıktı metninin doğrudan basılacağı stil */
-    .dynamic-output-box {
-        font-family: 'Anonymous Pro', monospace !important;
-        color: #C71585 !important;
-        font-size: 1rem !important;
-        padding: 12px 14px;
-        height: 430px;
-        overflow-y: auto;
-        white-space: pre-wrap;
-        word-break: break-all;
-        box-sizing: border-box;
-    }
-
-    /* Enforce deep pink label coloring across all core sliders and text fields */
-    [data-testid="stWidgetLabel"] p, label p, p, span {
-        color: #C71585 !important;
-        font-weight: 700 !important;
-    }
-
-    hr {
-        border-color: #FF69B4 !important;
-        opacity: 0.5;
-    }
-
-    /* st.image çerçevesini güzelleştirmek için özel küçük dokunuş */
-    [data-testid="stImage"] img {
-        border-radius: 15px !important;
-        border: 2px solid #FF69B4 !important;
-        box-shadow: 0px 4px 10px rgba(255, 105, 180, 0.2) !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-# --- APP HEADER ---
-st.markdown(
-    """
-    <div class="app-title-container">
-        <div class="app-title">Cipherish</div>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-# --- ALGORITHMS ---
+# --- ALGORİTMA MANTIĞI (Tamamen senin yazdığın temiz Python yapısı) ---
 alphabet = "abcçdefgğhıijklmnoöpqrsştuüvwxyz"
 
 def cipher_encoder(text, shift, block, use_reversal, use_numbers):
@@ -207,66 +89,58 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
     return new_text
 
 
-# --- 3-COLUMN STRUCTURE ---
-col1, col2, col3 = st.columns([1.2, 2.2, 1.2], gap="large")
+# --- 3 SÜTUNLU WEB DÜZENİ (Streamlit'in en temel ve yasal yerleşim yapısı) ---
+col1, col2, col3 = st.columns([1.5, 2.5, 1.5], gap="medium")
 
-# --- COLUMN 1: ADJUSTMENTS PANEL ---
+# --- SÜTUN 1: AYARLAR PANELİ ---
 with col1:
     with st.container(border=True):
-        st.markdown('<div class="panel-title">ADJUSTMENTS</div>', unsafe_allow_html=True)
+        st.subheader("ADJUSTMENTS")
         
         mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
-        st.markdown("<hr>", unsafe_allow_html=True)
+        st.markdown("---")
         
-        shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5, step=1)
-        block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4, step=1)
-        st.markdown("<hr>", unsafe_allow_html=True)
+        shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5)
+        block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4)
+        st.markdown("---")
         
         enable_reversal = st.checkbox("Word Reversal", value=False)
         enable_numbers = st.checkbox("Number Layers", value=False)
 
-# --- COLUMN 2: THE OPEN BOOK (INPUT / OUTPUT) ---
+# --- SÜTUN 2: GİRDİ VE ÇIKTI KUTULARI ---
 with col2:
-    page_left, page_right = st.columns(2, gap="medium")
-    
-    st.markdown('<div class="input-output-container">', unsafe_allow_html=True)
+    page_left, page_right = st.columns(2, gap="small")
     
     with page_left:
         with st.container(border=True):
+            st.markdown("**Input Text:**")
             input_text = st.text_area(
-                label="",
-                placeholder="After selecting your desired encoding adjustments from the menu on the left, you can type in your message here...",
+                label="input_field",
+                placeholder="Type your message here...",
+                height=350,
                 label_visibility="collapsed"
             )
         
     with page_right:
         with st.container(border=True):
+            st.markdown("**Output Text:**")
+            
+            # Algoritmayı çalıştırıp doğrudan Streamlit kutusunda gösteriyoruz
             if input_text:
                 if mode == "Encode":
                     result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
                 else:
                     result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
                 
-                # html.escape() fonksiyonu ile metni güvenli hale getirdik, artık < karakteri kutuyu bozmuyor!
-                safe_result = html.escape(result)
-                st.markdown(f'<div class="dynamic-output-box">{safe_result}</div>', unsafe_allow_html=True)
+                # Başlangıç seviyesine uygun, tertemiz bir native çıktı alanı
+                st.info(result)
             else:
-                st.markdown('<div class="dynamic-output-box" style="color: rgba(199, 21, 133, 0.5);">The output will be here...</div>', unsafe_allow_html=True)
-                
-    st.markdown('</div>', unsafe_allow_html=True)
+                st.caption("The output will appear here...")
 
-# --- COLUMN 3: CAMERA IMAGE & INTRO TEXT PANEL ---
+# --- SÜTUN 3: GÖRSEL PANELİ ---
 with col3:
     with st.container(border=True):
+        # Görseli yüklüyoruz
         st.image("zphoto.png", use_container_width=True)
         
-        st.markdown(
-            """
-            <div style="text-align: left; margin-top: 15px;">
-                <p>Hi!! We created this tool for our <b>Ling360</b> final project.</p>
-                <p>You can type in your message and Cipherish will encode it for you.</p>
-                <p>Your secret is safe with us &lt;3</p>
-            </div>
-            """, 
-            unsafe_allow_html=True
-        )
+        st.info("💡 **Tip:** Try combining *Word Reversal* and *Number Layers* for a more complex encryption!")

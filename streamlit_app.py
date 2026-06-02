@@ -43,7 +43,7 @@ st.markdown(
 
 # title
 st.title("CIPHERISH")
-st.write("Welcome! From the left side of the page you can change your settings. Then you can type your text in the input box and Cipherish will encode/decode it for you <3")
+st.write("Welcome! Please choose a 4-digit PIN, the numbers must be between 1-9, you can't use zero. It is important to remember your PIN as it is the key to your message, you'll need it for both the encoding and decoding. it will adjust your encoding settings. Then you can type your text in the input box and Cipherish will do the job for you <3")
 st.markdown("---")
 
 # colab kodumuz
@@ -133,7 +133,7 @@ with col2:
     # side-by-side configurations
     settings_left, settings_right = st.columns(2, gap="small")
     mode = settings_left.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
-    pin = settings_right.text_input("Please enter your 4-digit PIN. You can't use 0:", value="1111", max_chars=4)
+    pin = settings_right.text_input("Please enter your PIN:", value="1111", max_chars=4)
     st.markdown("---")
     
     # parsing the pin elements

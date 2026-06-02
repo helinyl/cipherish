@@ -3,9 +3,29 @@ import streamlit as st
 # ayarlar
 st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="wide")
 
+# visuals
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-color: #FFF0F5 !important;
+    }
+    h1, h2, h3, .stSubheader {
+        font-family: 'Georgia', 'Times New Roman', serif !important;
+        color: #C71585 !important;
+    }
+    p, span, label, textarea, .stMarkdown {
+        font-family: 'Courier New', Courier, monospace !important;
+        color: #C71585 !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # başlık
 st.title("🔑 CIPHERISH")
-st.write("Welcome! We created this tool for our **Ling360** final project. Your secret is safe with us <3")
+st.write("Welcome! From the left side of the page you can change your settings. Then you can type it in the input box and Cipherish will encode or decode the message for you <3")
 st.markdown("---")
 
 # colab kodumuz
@@ -89,20 +109,17 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
 
 
 # sayfa sütunları
-# Sol ayarlar panelini ekranın solundan açılıp kapanan yerel "Sidebar" alanına taşıdık.
-# Ana sayfayı ise girdi kutusu ve "bizi tanıyın" expander'ı için 2 sütuna böldük.
 col2, col3 = st.columns([3.5, 1.5], gap="medium")
 
 # ayarlar sütunu
-# st.sidebar kullanarak mobilde otomatik olarak gizlenen, sol üstteki > işaretiyle açılıp kapanan mükemmel bir menü elde ettik.
 with st.sidebar:
     st.subheader("ADJUSTMENTS")
     
     mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
     st.markdown("---")
     
-    shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5)
-    block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4)
+    shift_value = st.slider("change character pattern:", min_value=1, max_value=15, value=5)
+    block_size = st.slider("change word pattern:", min_value=2, max_value=10, value=4)
     st.markdown("---")
     
     enable_reversal = st.checkbox("Word Reversal", value=False)
@@ -126,23 +143,19 @@ with col2:
         with st.container(border=True):
             st.markdown("**Output Text:**")
             
-            # Algoritmayı çalıştırıp doğrudan Streamlit kutusunda gösteriyoruz
             if input_text:
                 if mode == "Encode":
                     result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
                 else:
                     result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
                 
-                # Başlangıç seviyesine uygun, tertemiz bir native çıktı alanı
                 st.info(result)
             else:
                 st.caption("The output will appear here...")
 
 # bizi tanıyın
 with col3:
-    # st.expander kullanarak sağ sütunu da istendiğinde açılıp kapanan (click to expand) esnek bir yapıya kavuşturduk.
     with st.expander("📷 ABOUT US", expanded=True):
-        # Görseli yüklüyoruz
         st.image("zphoto.png", use_container_width=True)
         
-        st.info("💡 **Tip:** Try combining *Word Reversal* and *Number Layers* for a more complex encryption!")
+        st.info("We are four Linguistics students at Boğaziçi University and created this tool for Ümit Atlamaz's **Ling360** class as our final project. Our goal was to help people create and receive secret messages. We hope you have fun with it!!")

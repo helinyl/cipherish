@@ -7,15 +7,34 @@ st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="wide")
 st.markdown(
     """
     <style>
+    /* Uygulama arka planını tatlı bir pembe yapıyoruz */
     .stApp {
         background-color: #FFF0F5 !important;
     }
-    h1, h2, h3, .stSubheader {
+    
+    /* Başlığı (CIPHERISH) tam olarak 'The Seasons' tarzı şık bir serif yapıyoruz */
+    h1 {
+        font-family: 'Georgia', 'Times New Roman', serif !important;
+        font-weight: 400 !important;
+        letter-spacing: 4px !important;
+        color: #C71585 !important;
+    }
+    
+    /* Alt başlıkları da uyumlu serif yapıyoruz */
+    h2, h3, .stSubheader {
         font-family: 'Georgia', 'Times New Roman', serif !important;
         color: #C71585 !important;
     }
-    p, span, label, textarea, .stMarkdown {
+    
+    /* Kelimelerin üst üste binmesini engellemek için sadece genel font ailesini ve rengi değiştiriyoruz */
+    /* İç boşlukları (layout) bozmamak için spesifik etiketleri rahat bıraktık */
+    .stApp, p, label, textarea {
         font-family: 'Courier New', Courier, monospace !important;
+        color: #C71585 !important;
+    }
+    
+    /* Girdi alanının içindeki metnin de daktilo stilinde ve pembe kalmasını sağlıyoruz */
+    textarea {
         color: #C71585 !important;
     }
     </style>

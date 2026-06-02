@@ -1,15 +1,15 @@
 import streamlit as st
 
-# Uygulamanın en tepesindeki sayfa ayarları (Herkesin dokümantasyondan bulup yapabileceği standart bir adım)
+# ayarlar
 st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="wide")
 
-# --- UYGULAMA BAŞLIĞI ---
+# başlık
 # Karmaşık HTML div'leri yerine Streamlit'in kendi başlık fonksiyonu
 st.title("🔑 CIPHERISH")
 st.write("Welcome! We created this tool for our **Ling360** final project. Your secret is safe with us <3")
 st.markdown("---")
 
-# --- ALGORİTMA MANTIĞI (Tamamen senin yazdığın temiz Python yapısı) ---
+# colab kodumuz
 alphabet = "abcçdefgğhıijklmnoöpqrsştuüvwxyz"
 
 def cipher_encoder(text, shift, block, use_reversal, use_numbers):
@@ -89,10 +89,10 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
     return new_text
 
 
-# --- 3 SÜTUNLU WEB DÜZENİ (Streamlit'in en temel ve yasal yerleşim yapısı) ---
+# sayfa sütunları
 col1, col2, col3 = st.columns([1.5, 2.5, 1.5], gap="medium")
 
-# --- SÜTUN 1: AYARLAR PANELİ ---
+# ayarlar sütunu
 with col1:
     with st.container(border=True):
         st.subheader("ADJUSTMENTS")
@@ -107,7 +107,7 @@ with col1:
         enable_reversal = st.checkbox("Word Reversal", value=False)
         enable_numbers = st.checkbox("Number Layers", value=False)
 
-# --- SÜTUN 2: GİRDİ VE ÇIKTI KUTULARI ---
+# input ve output kutusu
 with col2:
     page_left, page_right = st.columns(2, gap="small")
     
@@ -137,7 +137,7 @@ with col2:
             else:
                 st.caption("The output will appear here...")
 
-# --- SÜTUN 3: GÖRSEL PANELİ ---
+# bizi tanıyın
 with col3:
     with st.container(border=True):
         # Görseli yüklüyoruz

@@ -1,15 +1,38 @@
 import streamlit as st
 
-# ayarlar
-st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="wide")
+# Sayfa ayarları - Mobilde ve PC'de dengeli durması için centered yaptık
+st.set_page_config(page_title="Cipherish App", page_icon="🔑", layout="centered")
 
-# başlık
-# Karmaşık HTML div'leri yerine Streamlit'in kendi başlık fonksiyonu
-st.title("🔑 CIPHERISH")
+# --- FONT VE STİL AYARLARI ---
+# Dışarıdan kütüphane eklemeden, tamamen yerel bileşenlerin fontunu Anonymous Pro yapmak için basit bir CSS
+st.markdown(
+    """
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght=0,400;0,700;1,400;1,700&display=swap');
+    @import url('https://fonts.cdnfonts.com/css/seasons');
+
+    /* Tüm standart Streamlit elementlerinin fontunu Anonymous Pro yapıyoruz */
+    html, body, [class*="css"], label, button, input, textarea, p, span, div, small {
+        font-family: 'Anonymous Pro', monospace !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# --- UYGULAMA BAŞLIĞI (The Seasons Fontu ile) ---
+st.markdown(
+    """
+    <h1 style="font-family: 'Seasons', serif; font-weight: bold; letter-spacing: 3px; margin-bottom: 0px;">
+        🔑 CIPHERISH
+    </h1>
+    """, 
+    unsafe_allow_html=True
+)
 st.write("Welcome! We created this tool for our **Ling360** final project. Your secret is safe with us <3")
 st.markdown("---")
 
-# colab kodumuz
+# --- COLAB KODUNUZ (Algoritma Mantığı) ---
 alphabet = "abcçdefgğhıijklmnoöpqrsştuüvwxyz"
 
 def cipher_encoder(text, shift, block, use_reversal, use_numbers):
@@ -89,58 +112,50 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
     return new_text
 
 
-# sayfa sütunları
-col1, col2, col3 = st.columns([1.5, 2.5, 1.5], gap="medium")
+# --- SEKMELİ EKRAN DÜZENİ ---
+# İstediğin gibi: Sol sekme Ayarlar, Orta ana ekran Şifreleme Kutusu, Sağ sekme Görselimiz
+tab_left, tab_center, tab_right = st.tabs(["⚙️ Adjustments", "📝 Cipher Box", "📷 About Us"])
 
-# ayarlar sütunu
-with col1:
-    with st.container(border=True):
-        st.subheader("ADJUSTMENTS")
-        
-        mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
-        st.markdown("---")
-        
-        shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5)
-        block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4)
-        st.markdown("---")
-        
-        enable_reversal = st.checkbox("Word Reversal", value=False)
-        enable_numbers = st.checkbox("Number Layers", value=False)
-
-# input ve output kutusu
-with col2:
-    page_left, page_right = st.columns(2, gap="small")
+# --- SOL SEKME: AYARLAR PANELİ ---
+with tab_left:
+    st.subheader("Configure Settings")
+    mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
+    st.markdown("---")
     
-    with page_left:
-        with st.container(border=True):
-            st.markdown("**Input Text:**")
-            input_text = st.text_area(
-                label="input_field",
-                placeholder="Type your message here...",
-                height=350,
-                label_visibility="collapsed"
-            )
-        
-    with page_right:
-        with st.container(border=True):
-            st.markdown("**Output Text:**")
-            
-            # Algoritmayı çalıştırıp doğrudan Streamlit kutusunda gösteriyoruz
-            if input_text:
-                if mode == "Encode":
-                    result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
-                else:
-                    result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
-                
-                # Başlangıç seviyesine uygun, tertemiz bir native çıktı alanı
-                st.info(result)
-            else:
-                st.caption("The output will appear here...")
+    shift_value = st.slider("Shift Amount:", min_value=1, max_value=15, value=5)
+    block_size = st.slider("Block Size:", min_value=2, max_value=10, value=4)
+    st.markdown("---")
+    
+    enable_reversal = st.checkbox("Word Reversal", value=False)
+    enable_numbers = st.checkbox("Number Layers", value=False)
 
-# bizi tanıyın
-with col3:
-    with st.container(border=True):
-        # Görseli yüklüyoruz
-        st.image("zphoto.png", use_container_width=True)
+# --- ORTA SEKME (ANA EKRAN): GİRDİ VE ÇIKTI KUTUSU ---
+with tab_center:
+    st.subheader("Type & Transform")
+    
+    # Giriş seviyesine en uygun, mobilde de taşma yapmayan dikey düzen
+    input_text = st.text_area(
+        label="Input Text:",
+        placeholder="Type your message here...",
+        height=180
+    )
+    
+    st.markdown("**Output Text:**")
+    if input_text:
+        if mode == "Encode":
+            result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
+        else:
+            result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
         
-        st.info("💡 **Tip:** Try combining *Word Reversal* and *Number Layers* for a more complex encryption!")
+        # Tamamen güvenli ve yerel yerleşik çıktı kutusu
+        st.info(result)
+    else:
+        st.caption("The output will appear here after you type something...")
+
+# --- SAĞ SEKME: GÖRSEL VE PROJE BİLGİSİ ---
+with tab_right:
+    st.subheader("Ling360 Project")
+    # Görseli yüklüyoruz, mobil ekran genişliğine otomatik uyum sağlar
+    st.image("zphoto.png", use_container_width=True)
+    
+    st.info("💡 **Tip:** Try combining *Word Reversal* and *Number Layers* for a more complex encryption!")

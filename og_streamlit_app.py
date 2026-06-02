@@ -43,7 +43,7 @@ st.markdown(
 
 # title
 st.title("CIPHERISH")
-st.write("Welcome! From the left side of the page you can change your settings. Then you can type your text in the input box and Cipherish will encode/decode it for you <3")
+st.write("Welcome! Please choose a 4-digit PIN, the numbers must be between 1-9, you can't use zero. It is important to remember your PIN as it is the key to your message, you'll need it for both the encoding and decoding. Then you can type out your text in the input box and Cipherish will do the job for you <3")
 st.markdown("---")
 
 # colab kodumuz
@@ -129,51 +129,42 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
 # columns
 col2, col3 = st.columns([3.5, 1.5], gap="medium")
 
-# adjustments column
-with st.sidebar:
-    st.subheader("ADJUSTMENTS")
-    
-    mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
-    st.markdown("---")
-    
-    shift_value = st.slider("change character pattern:", min_value=1, max_value=15, value=5)
-    block_size = st.slider("change word pattern:", min_value=2, max_value=10, value=4)
-    st.markdown("---")
-    
-    enable_reversal = st.checkbox("Word Reversal", value=False)
-    enable_numbers = st.checkbox("Number Layers", value=False)
-
-# input and output boxes
 with col2:
+    # side-by-side configurations
+    settings_left, settings_right = st.columns(2, gap="small")
+    mode = settings_left.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
+    pin = settings_right.text_input("Please enter your PIN:", value="1111", max_chars=4)
+    st.markdown("---")
+    
+    # parsing the pin elements
+    if len(pin) == 4 and pin.isdigit():
+        shift_value = int(pin[0])
+        block_size = int(pin[1])
+        enable_reversal = int(pin[2]) % 2 == 0
+        enable_numbers = int(pin[3]) % 2 == 0
+    else:
+        shift_value, block_size, enable_reversal, enable_numbers = 5, 4, False, False
+
+    # input and output text areas
     page_left, page_right = st.columns(2, gap="small")
     
-    with page_left:
-        with st.container(border=True):
-            st.markdown("**Input Text:**")
-            input_text = st.text_area(
-                label="input_field",
-                placeholder="Type your message here...",
-                height=350,
-                label_visibility="collapsed"
-            )
+    # input box
+    page_left.markdown("**Input:**")
+    input_text = page_left.text_area(label="input_field", placeholder="Type your message here...", height=350, label_visibility="collapsed")
         
-    with page_right:
-        with st.container(border=True):
-            st.markdown("**Output Text:**")
-            
-            if input_text:
-                if mode == "Encode":
-                    result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
-                else:
-                    result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
-                
-                st.info(result)
-            else:
-                st.caption("The output will appear here...")
+    # output box
+    page_right.markdown("**Output:**")
+    if input_text:
+        if mode == "Encode":
+            result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
+        else:
+            result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
+        page_right.info(result)
+    else:
+        page_right.caption("The output will appear here...")
 
 # get to know us
 with col3:
     with st.expander("📷 ABOUT US", expanded=True):
         st.image("zphoto.png", use_container_width=True)
-        
         st.info("We are four Linguistics students from Boğaziçi University. We created this tool for Ümit Atlamaz's **Ling360** class as our final project. Our goal was to help people create and receive secret messages. We hope you have fun with it!!")

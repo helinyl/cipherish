@@ -129,73 +129,42 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
 # columns
 col2, col3 = st.columns([3.5, 1.5], gap="medium")
 
-# adjustments column
 with col2:
-    # PIN and Mode components are placed neatly side-by-side right above the input box
+    # side-by-side configurations
     settings_left, settings_right = st.columns(2, gap="small")
-    
-    with settings_left:
-        mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
-        
-    with settings_right:
-        pin = st.text_input("Please enter your 4-digit PIN. You can't use 0:", value="1111", max_chars=4)
-    
+    mode = settings_left.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
+    pin = settings_right.text_input("Please enter your 4-digit PIN. You can't use 0:", value="1111", max_chars=4)
     st.markdown("---")
     
-    # parsing the pin elements (same as colab notebook logic)
+    # parsing the pin elements
     if len(pin) == 4 and pin.isdigit():
         shift_value = int(pin[0])
         block_size = int(pin[1])
-        
-        # reversal logic
-        if int(pin[2]) % 2 == 0:
-            enable_reversal = True
-        else:
-            enable_reversal = False
-            
-        # numbers logic
-        if int(pin[3]) % 2 == 0:
-            enable_numbers = True
-        else:
-            enable_numbers = False
+        enable_reversal = int(pin[2]) % 2 == 0
+        enable_numbers = int(pin[3]) % 2 == 0
     else:
-        # standard fallback values if pin is incomplete or invalid
-        shift_value = 5
-        block_size = 4
-        enable_reversal = False
-        enable_numbers = False
+        shift_value, block_size, enable_reversal, enable_numbers = 5, 4, False, False
 
-# input and output boxes
-with col2:
+    # input and output text areas
     page_left, page_right = st.columns(2, gap="small")
     
-    with page_left:
-        with st.container(border=True):
-            st.markdown("**Input:**")
-            input_text = st.text_area(
-                label="input_field",
-                placeholder="Type your message here...",
-                height=350,
-                label_visibility="collapsed"
-            )
+    # input box
+    page_left.markdown("**Input:**")
+    input_text = page_left.text_area(label="input_field", placeholder="Type your message here...", height=350, label_visibility="collapsed")
         
-    with page_right:
-        with st.container(border=True):
-            st.markdown("**Output:**")
-            
-            if input_text:
-                if mode == "Encode":
-                    result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
-                else:
-                    result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
-                
-                st.info(result)
-            else:
-                st.caption("The output will appear here...")
+    # output box
+    page_right.markdown("**Output:**")
+    if input_text:
+        if mode == "Encode":
+            result = cipher_encoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
+        else:
+            result = cipher_decoder(input_text, shift_value, block_size, enable_reversal, enable_numbers)
+        page_right.info(result)
+    else:
+        page_right.caption("The output will appear here...")
 
 # get to know us
 with col3:
     with st.expander("📷 ABOUT US", expanded=True):
         st.image("zphoto.png", use_container_width=True)
-        
         st.info("We are four Linguistics students from Boğaziçi University. We created this tool for Ümit Atlamaz's **Ling360** class as our final project. Our goal was to help people create and receive secret messages. We hope you have fun with it!!")

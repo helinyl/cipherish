@@ -138,7 +138,7 @@ with col2:
         mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
         
     with settings_right:
-        pin = st.text_input("Enter 4-digit PIN:", value="X-X-X-X", max_chars=4)
+        pin = st.text_input("Enter 4-digit PIN (You can't use 0) :", value="X-X-X-X", max_chars=4)
     
     st.markdown("---")
     

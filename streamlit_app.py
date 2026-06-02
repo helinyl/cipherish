@@ -43,7 +43,7 @@ st.markdown(
 
 # title
 st.title("CIPHERISH")
-st.write("Welcome! From the left side of the page you can change your settings. Then you can type it in the input box and Cipherish will encode or decode the message for you <3")
+st.write("Welcome! From the left side of the page you can change your settings. Then you can type your text in the input box and Cipherish will encode or decode the message for you <3")
 st.markdown("---")
 
 # colab kodumuz

@@ -138,7 +138,7 @@ with col2:
         mode = st.radio("Select Mode:", ("Encode", "Decode"), horizontal=True)
         
     with settings_right:
-        pin = st.text_input("Enter 4-digit PIN (You can't use 0) :", value="X-X-X-X", max_chars=4)
+        pin = st.text_input("Please enter your 4-digit PIN. You can't use 0:", value="X-X-X-X", max_chars=4)
     
     st.markdown("---")
     
@@ -164,7 +164,6 @@ with col2:
         block_size = 4
         enable_reversal = False
         enable_numbers = False
-        st.caption("Please enter your 4-Digit PIN. Pick your numbers between 1-9, you can't use 0.")
 
 # input and output boxes
 with col2:

@@ -49,40 +49,10 @@ st.markdown("---")
 # colab kodumuz
 alphabet = "abcçdefgğhıijklmnoöpqrsştuüvwxyz"
 
-#shift yani kaç harf ileri attığımz. og kodda 5ti o yüzden ilk valueyı yine 5 verdm
-shift_amount = IntSlider(
-    value=5,
-    min=1,
-    max=15,
-    step=1,
-    description="Shift:"
-)
-
-#block = kelimeleri kaç kelimede bir reverse eyleyeceğimiz.
-block_size = IntSlider(
-    value=4,
-    min=2,
-    max=10,
-    step=1,
-    description="Block:"
-)
-
-#word reversal için checkbox
-enable_reversal = Checkbox(
-    value=False,
-    description="word reversal"
-)
-
-#sayı eklemek için checkbox ama baya basit bi kural bu ya just var olamk iiçin var
-enable_numbers = Checkbox(
-    value=False,
-    description="number layer"
-)
-
-
 def cipher_encoder(text, shift, block, use_reversal, use_numbers):
+    if not text:
+        return ""
     new_text = ""
-
     for char in text.lower():
         if char in alphabet:
             index = alphabet.index(char)
@@ -90,7 +60,6 @@ def cipher_encoder(text, shift, block, use_reversal, use_numbers):
             new_text += alphabet[new_index]
         else:
             new_text += char
-
 
     if use_numbers:
         temp_text = ""
@@ -106,53 +75,39 @@ def cipher_encoder(text, shift, block, use_reversal, use_numbers):
         new_text = temp_text
 
     words = new_text.split()
-
-
     if use_reversal:
         encoded_words = []
-
         for i in range(0, len(words), block):
             current_block = words[i:i+block]
             current_block.reverse()
             encoded_words.extend(current_block)
-
         words = encoded_words
 
     final_output = ""
-
     for word in words:
         if final_output == "":
             final_output += word
         else:
             final_output += " " + word
-
     return final_output
 
-
 def cipher_decoder(text, shift, block, use_reversal, use_numbers):
-
-
+    if not text:
+        return ""
     if use_reversal:
-
         words = text.split()
-
         restored_words = []
-
         for i in range(0, len(words), block):
             current_block = words[i:i+block]
             current_block.reverse()
             restored_words.extend(current_block)
-
         text = " ".join(restored_words)
 
-
     if use_numbers:
-         text = re.sub(r"<\d+>", "", text)
+        text = re.sub(r"<\d+>", "", text)
 
     words = text.split()
-
     text_to_shift = ""
-
     for word in words:
         if text_to_shift == "":
             text_to_shift += word
@@ -160,20 +115,14 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
             text_to_shift += " " + word
 
     new_text = ""
-
     for char in text_to_shift.lower():
         if char in alphabet:
             index = alphabet.index(char)
-
-
             new_index = (index - shift) % len(alphabet)
-
             new_text += alphabet[new_index]
         else:
             new_text += char
-
     return new_text
-
 
 
 # columns

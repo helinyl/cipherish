@@ -95,7 +95,6 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
 
 
     if use_reversal:
-
         words = text.split()
 
         restored_words = []

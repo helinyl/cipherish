@@ -105,6 +105,7 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
 
     if use_numbers:
         text = re.sub(r"<\d+>", "", text)
+        text_to_shift = ""
 
     words = text.split()
     text_to_shift = ""

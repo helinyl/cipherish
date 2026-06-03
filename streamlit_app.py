@@ -92,22 +92,29 @@ def cipher_encoder(text, shift, block, use_reversal, use_numbers):
     return final_output
 
 def cipher_decoder(text, shift, block, use_reversal, use_numbers):
-    if not text:
-        return ""
+
+
     if use_reversal:
+
         words = text.split()
+
         restored_words = []
+
         for i in range(0, len(words), block):
             current_block = words[i:i+block]
             current_block.reverse()
             restored_words.extend(current_block)
+
         text = " ".join(restored_words)
 
-    if use_numbers:
-        text = re.sub(r"<\d+>", "", text)
 
-        words = text.split()
-        text_to_shift = ""
+    if use_numbers:
+         text = re.sub(r"<\d+>", "", text)
+
+    words = text.split()
+
+    text_to_shift = ""
+
     for word in words:
         if text_to_shift == "":
             text_to_shift += word
@@ -115,15 +122,19 @@ def cipher_decoder(text, shift, block, use_reversal, use_numbers):
             text_to_shift += " " + word
 
     new_text = ""
+
     for char in text_to_shift.lower():
         if char in alphabet:
             index = alphabet.index(char)
+
+
             new_index = (index - shift) % len(alphabet)
+
             new_text += alphabet[new_index]
         else:
             new_text += char
-    return new_text
 
+    return new_text
 
 # columns
 col2, col3 = st.columns([3.5, 1.5], gap="medium")

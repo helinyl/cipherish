@@ -42,7 +42,7 @@ st.markdown(
 )
 
 # title
-st.title("CIPHERISH")
+st.title("˗ˏˋ ꒰ ✉︎ ꒱ ˎˊ˗CIPHERISH˗ˏˋ ꒰ ✉︎ ꒱ ˎˊ˗")
 st.write("Welcome! Please choose a 4-digit PIN, the numbers must be between 1-9, you can't use zero. It is important to remember your PIN as it is the key to your message, you'll need it for both the encoding and decoding. Then you can type out your text in the input box and Cipherish will do the job for you <3")
 st.markdown("---")
 
@@ -165,6 +165,6 @@ with col2:
 
 # get to know us
 with col3:
-    with st.expander("📷 ABOUT US", expanded=True):
+    with st.expander("˖°📷༘ Who Are We?", expanded=True):
         st.image("zphoto.png", use_container_width=True)
-        st.info("We are four Linguistics students from Boğaziçi University. We created this tool for Ümit Atlamaz's **Ling360** class as our final project. Our goal was to help people create and receive secret messages. We hope you have fun with it!!")
+        st.info("We are four Linguistics students from Boğaziçi University. We created this tool for Ümit Atlamaz's **Ling360** class as our final project. Our goal was to help people **create and read secret messages.** We hope you have fun with it!!")

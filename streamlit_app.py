@@ -173,7 +173,7 @@ with col2:
 
 # get to know us
 with col3:
-    with st.expander("📷 ABOUT US", expanded=True):
+    with st.expander("˖°📷༘ Who Are We?", expanded=True):
         st.image("zphoto.png", use_container_width=True)
         
         st.info("We are four Linguistics students from Boğaziçi University. We created this tool for Ümit Atlamaz's **Ling360** class as our final project. Our goal was to help people create and receive secret messages. We hope you have fun with it!!")

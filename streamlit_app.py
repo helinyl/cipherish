@@ -42,7 +42,7 @@ st.markdown(
 )
 
 # title
-st.title("˗ˏˋ ꒰ ✉︎ ꒱ ˎˊ˗CIPHERISH ˗ˏˋ ꒰ ✉︎ ꒱ ˎˊ˗")
+st.title("˗ˏˋ ꒰ ✉︎ ꒱ ˎˊ˗ CIPHERISH ˗ˏˋ ꒰ ✉︎ ꒱ ˎˊ˗")
 st.write("Welcome! From the left side of the page you can change your settings. Then you can type your text in the input box and Cipherish will encode/decode it for you <3")
 st.markdown("---")
 
